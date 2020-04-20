@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+group 'org.picstories.api'
+version '1.0-SNAPSHOT'
+
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url = localProperties['myMavenRepoReadUrl']
+
+        credentials {
+            username = localProperties['myMavenRepoReadUsername']
+            password = localProperties['myMavenRepoReadPassword']
+        }
+    }
+}
+
+dependencies {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-elasticsearch', version: '2.2.5.RELEASE'
+    implementation group: 'com.google.guava', name: 'guava', version: '28.0-jre'
+    implementation group: 'org.picstories.library', name: 'picstories-library', version: '2.0-SNAPSHOT'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '2.2.5.RELEASE'
+
+    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    testImplementation group: 'io.projectreactor', name: 'reactor-test', version: '3.1.0.RELEASE'
+    testImplementation('org.springframework.boot:spring-boot-starter-test:2.2.5.RELEASE') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}

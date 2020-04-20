@@ -1,0 +1,9 @@
+server:
+  port: 7001
+
+spring:
+  application:
+    name: api-service
+  elasticsearch:
+    rest:
+      uris: localhost:9200
