@@ -22,8 +22,8 @@ docker {
 }
 
 dockerRun {
-    name "picstories/picstories-api:virusmaster"
-    image "picstories-api:unspecified"
+    name project.name
+    image "picstories/picstories-api:virusmaster"
     ports "7001:7001"
     clean true
 }
