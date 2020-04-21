@@ -5,9 +5,33 @@ buildscript {
     }
 }
 
+plugins {
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'com.palantir.docker' version "0.22.1"
+    id 'com.palantir.docker-run' version '0.22.1'
+    id 'com.palantir.docker-compose' version '0.22.1'
+}
+
+docker {
+    name "picstories/picstories-api:virusmaster"
+    files 'build/libs/picstories-api-service-1.0-SNAPSHOT.jar'
+    dockerfile file('Dockerfile')
+    tag 'DockerHub', 'virusmaster'
+    pull true
+    noCache true
+}
+
+dockerRun {
+    name "picstories/picstories-api:virusmaster"
+    image "picstories-api:unspecified"
+    ports "7001:7001"
+    clean true
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven'
+apply plugin: 'java-library-distribution'
 
 group 'org.picstories.api'
 version '1.0-SNAPSHOT'
@@ -32,6 +56,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-elasticsearch', version: '2.2.5.RELEASE'
     implementation group: 'com.google.guava', name: 'guava', version: '28.0-jre'
     implementation group: 'org.picstories.library', name: 'picstories-library', version: '2.0-SNAPSHOT'
+    implementation group: 'net.bytebuddy', name: 'byte-buddy', version: '1.10.9'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '2.2.5.RELEASE'
 
     implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
@@ -43,5 +68,15 @@ dependencies {
     testImplementation group: 'io.projectreactor', name: 'reactor-test', version: '3.1.0.RELEASE'
     testImplementation('org.springframework.boot:spring-boot-starter-test:2.2.5.RELEASE') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+distZip.shouldRunAfter(build)
+
+jar {
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+    manifest {
+        attributes 'Main-Class': 'org.picstories.parsers.manager.Application',
+                'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
     }
 }
