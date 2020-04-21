@@ -76,7 +76,7 @@ distZip.shouldRunAfter(build)
 jar {
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
     manifest {
-        attributes 'Main-Class': 'org.picstories.parsers.manager.Application',
+        attributes 'Main-Class': 'org.picstories.api.PicstoriesApiApplication',
                 'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
     }
 }
