@@ -13,7 +13,7 @@ plugins {
 }
 
 docker {
-    name "picstories/picstories-api:virusmaster"
+    name 'picstories/picstories-api:virusmaster'
     files 'build/libs/picstories-api-service-1.0-SNAPSHOT.jar'
     dockerfile file('Dockerfile')
     tag 'DockerHub', 'virusmaster'
