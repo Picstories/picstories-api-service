@@ -5,3 +5,5 @@ spring:
     config:
       uri: http://configuration-service:9090
       fail-fast: true
+server:
+  port: 7001
