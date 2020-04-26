@@ -1,10 +1,10 @@
 package org.picstories.api.service;
 
+import org.picstories.api.repository.ComicsElasticsearchRepository;
+import org.picstories.api.repository.PageElasticsearchRepository;
 import org.picstories.library.mapper.PicstoriesMapper;
 import org.picstories.library.model.dto.ComicsDto;
 import org.picstories.library.model.dto.PageDto;
-import org.picstories.library.repository.elasticsearch.ComicsElasticsearchRepository;
-import org.picstories.library.repository.elasticsearch.PageElasticsearchRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Flux;
