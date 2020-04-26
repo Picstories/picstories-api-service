@@ -1,6 +1,5 @@
 package org.picstories.api.service;
 
-import lombok.RequiredArgsConstructor;
 import org.picstories.library.mapper.PicstoriesMapper;
 import org.picstories.library.model.dto.ComicsDto;
 import org.picstories.library.model.dto.PageDto;
@@ -15,11 +14,18 @@ import reactor.core.publisher.Mono;
  * @author arman.shamenov
  */
 @Service
-@RequiredArgsConstructor
 public class ComicsService {
     private final ComicsElasticsearchRepository comicsElasticsearchRepository;
     private final PageElasticsearchRepository pageElasticsearchRepository;
     private final PicstoriesMapper picstoriesMapper;
+
+    public ComicsService(ComicsElasticsearchRepository comicsElasticsearchRepository,
+                         PageElasticsearchRepository pageElasticsearchRepository,
+                         PicstoriesMapper picstoriesMapper) {
+        this.comicsElasticsearchRepository = comicsElasticsearchRepository;
+        this.pageElasticsearchRepository = pageElasticsearchRepository;
+        this.picstoriesMapper = picstoriesMapper;
+    }
 
     public Flux<ComicsDto> getTopComics(Pageable pageable) {
         return comicsElasticsearchRepository.findAllBy(pageable)
